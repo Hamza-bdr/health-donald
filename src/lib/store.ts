@@ -1,5 +1,4 @@
 "use client";
-
 import { create } from "zustand";
 
 type User = string;
@@ -10,6 +9,10 @@ type UserStore = {
 };
 
 export const useUserStore = create<UserStore>((set) => ({
-  user: "",
-  setUser: (user) => set({ user }),
+  user: localStorage.getItem("user") || "",
+  setUser: (user) =>
+    set(() => {
+      localStorage.setItem("user", user);
+      return { user }; // Update the state with the new user
+    }),
 }));
