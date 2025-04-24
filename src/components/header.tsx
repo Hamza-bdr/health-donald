@@ -3,8 +3,10 @@ import Logo from "../app/Logo";
 import { User, ShoppingBasket } from "lucide-react";
 import { Button } from "./ui/button";
 import { useUserStore } from "@/lib/store/user-store";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
+  const Router = useRouter();
   const user = useUserStore((state) => state.user);
   const logout = useUserStore((state) => state.logout);
   return (
@@ -13,12 +15,15 @@ export default function Header() {
 
       <div className="ml-auto inline-flex items-center gap-3">
         {user && (
-          <button
+          <Button
             className="inline-flex items-center gap-1"
-            onClick={() => logout()}
+            onClick={() => {
+              Router.push("/");
+              logout();
+            }}
           >
             <User size={20} /> <span>{user}</span>
-          </button>
+          </Button>
         )}
         <Button size="sm" variant="outline">
           <ShoppingBasket size={12} />
