@@ -20,13 +20,13 @@ import {
   FormMessage,
   Form,
 } from "@/components/ui/form";
-import FirebaseImageUpload from "@/components/ImageInput";
 import { useUserStore } from "@/lib/store/user-store";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { User } from "lucide-react";
 import { getId } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import ImageInput from "@/components/ImageInput";
+import saveItem from "../../../lib/items/saveItem";
 const categories = [
   { name: "Burger", imageURL: "/images/healthburger/categories/burger.png" },
   {
@@ -41,7 +41,6 @@ const categories = [
   },
 ];
 const formSchema = z.object({
-  id: z.string().min(2).max(50),
   name: z.string().min(2).max(50),
   category: z.string().min(2).max(50),
   price: z.coerce.number().min(0).max(1000),
@@ -52,17 +51,29 @@ export default function ItemPage() {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      category: "",
+      price: 0,
+      image: "",
+    },
   });
-  interface FormData {
-    id: string;
-    name: string;
-    category: string;
-    price: number;
-    image?: any;
-  }
 
-  function onSubmit(values: FormData): void {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("Form submitted!");
     console.log(values);
+    const id = getId(values.name);
+    if (!id) {
+      console.error("Invalid ID generated from name");
+      return;
+    }
+    await saveItem(id, {
+      name: values.name,
+      price: values.price * 100,
+      category: values.category,
+      image: values.image,
+    });
+    router.push("/");
   }
 
   if (!isAdmin) {
@@ -74,7 +85,6 @@ export default function ItemPage() {
       </Alert>
     );
   }
-
   return (
     <Form {...form}>
       <form
@@ -95,19 +105,6 @@ export default function ItemPage() {
             </FormItem>
           )}
         />
-        {/* <FormField
-          control={form.control}
-          name="id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>ID</FormLabel>
-              <FormControl>
-                <Input id="id" placeholder="Item ID" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />{" "} */}
         <FormField
           control={form.control}
           name="category"
