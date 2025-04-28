@@ -1,10 +1,9 @@
 import { doc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db, storage } from "../../app/firebase";
+import { db, storage } from "../firebase";
 import { toast } from "sonner";
 
 export default async function saveItem(id: string, item: any) {
-
   if (item.image instanceof File) {
     const path = `images/${item.image.name}`;
     const imageRef = ref(storage, path);

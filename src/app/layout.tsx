@@ -37,7 +37,7 @@ export default function RootLayout({
         )}
       >
         <Toaster />
-        <div className="relative m-auto flex max-h-full min-h-full max-w-md flex-col gap-2 border-x">
+        <div className="relative m-auto flex min-h-full max-w-xl flex-col gap-2 border-x">
           <Header />
           <main className="flex-1 overflow-hidden p-4">{children}</main>
           <Footer />
