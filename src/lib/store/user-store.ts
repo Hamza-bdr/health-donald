@@ -9,6 +9,8 @@ type UserStore = {
   login: (user: User) => void;
   logout: () => void;
   isAdmin: boolean;
+  cartItems: {};
+  setCartItems: (cartItems: {}) => void;
 };
 
 export const useUserStore = create(
@@ -21,6 +23,10 @@ export const useUserStore = create(
       },
       logout: () => {
         set({ user: null, isAdmin: false });
+      },
+      cartItems: {},
+      setCartItems: (cartItems) => {
+        set({ cartItems });
       },
     }),
 
