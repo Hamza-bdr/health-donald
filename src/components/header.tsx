@@ -2,22 +2,13 @@
 import Logo from "../app/Logo";
 import { User, ShoppingBasket } from "lucide-react";
 import { Button } from "./ui/button";
-import { useUserStore } from "@/lib/store/user-store";
+import { useCartQuantity } from "@/lib/store/item-store";
 import { useRouter } from "next/navigation";
-
-interface itemsType {
-  [id: string]: { quantity: number };
-}
+import { useUserStore } from "@/lib/store/user-store";
 
 export default function Header() {
   const router = useRouter();
-  const user = useUserStore((state) => state.user);
-  const logout = useUserStore((state) => state.logout);
-  const cartItems = useUserStore((state) => state.cartItems);
-  const totalItems = Object.values(cartItems as itemsType).reduce(
-    (acc: number, value: { quantity: number }) => acc + value.quantity,
-    0
-  );
+  const { user, logout } = useUserStore();
   return (
     <header className="flex items-center gap-2 px-4 py-2 border-b">
       <Logo size={40} />
@@ -34,11 +25,18 @@ export default function Header() {
             <User size={20} /> <span>{user}</span>
           </Button>
         )}
-        <Button variant="outline">
-          <span className="text-md font-medium">{totalItems}</span>
-          <ShoppingBasket size={12} />
-        </Button>
+        <ShoppingCart />
       </div>
     </header>
   );
 }
+const ShoppingCart = () => {
+  const totalQuantity = useCartQuantity();
+
+  return (
+    <Button variant="outline">
+      <span className="text-md font-medium">{totalQuantity}</span>
+      <ShoppingBasket size={12} />
+    </Button>
+  );
+};

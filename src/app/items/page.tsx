@@ -10,21 +10,10 @@ import { getItems } from "@/lib/items/getItems";
 import useSWR from "swr";
 import { Loader2, MinusIcon, PlusIcon } from "lucide-react";
 import { formatPrice } from "./../../lib/format-price";
-import { useEffect, useState } from "react";
-import { useUserStore } from "@/lib/store/user-store";
+import { useItemStore } from "@/lib/store/item-store";
 
-interface itemsType {
-  [id: string]: { quantity: number };
-}
 export default function ItemsPage() {
-  const store = useUserStore();
-  const setCartItems = store.setCartItems;
   const { data, error, isLoading } = useSWR("/items", getItems);
-  const [items, setItems] = useState<itemsType>({});
-
-  useEffect(() => {
-    setCartItems(items);
-  }, [items]);
 
   if (error) {
     return (
@@ -41,18 +30,6 @@ export default function ItemsPage() {
       </div>
     );
   }
-  function handleAdd(id: string): void {
-    setItems((prev) => ({
-      ...prev,
-      [id]: { quantity: prev[id]?.quantity + 1 || 1 },
-    }));
-  }
-  function handleRemove(id: string): void {
-    setItems((prev) => ({
-      ...prev,
-      [id]: { quantity: prev[id]?.quantity - 1 || 0 },
-    }));
-  }
 
   return (
     <div className="grid sm:grid-cols-2 gap-2">
@@ -67,25 +44,38 @@ export default function ItemsPage() {
           <CardFooter className="text-lg font-medium justify-center">
             {item.name}
           </CardFooter>
-          {items[item.id]?.quantity > 0 ? (
-            <div className="inline-flex gap-3 items-center justify-end">
-              <button className="p-2" onClick={() => handleRemove(item.id)}>
-                <MinusIcon size={20} />
-              </button>
-              <span className="text-md font-semibold">
-                {items[item.id]?.quantity}
-              </span>
-              <button className="p-2" onClick={() => handleAdd(item.id)}>
-                <PlusIcon size={20} />
-              </button>
-            </div>
-          ) : (
-            <div className="flex justify-end ">
-              <Button onClick={() => handleAdd(item.id)}>Add</Button>
-            </div>
-          )}
+          <CartButton item={item} />
         </Card>
       ))}
+    </div>
+  );
+}
+type Item = {
+  id: string;
+  name: string;
+  category: string;
+  price: number;
+  image: string;
+};
+
+function CartButton({ item }: { item: Item }) {
+  const { cartItems, addItem, removeItem } = useItemStore();
+
+  return cartItems[item.id]?.quantity > 0 ? (
+    <div className="inline-flex gap-3 items-center justify-end">
+      <Button size="sm" onClick={() => removeItem(item)}>
+        <MinusIcon size={16} />
+      </Button>
+      <span className="text-md font-semibold">
+        {cartItems[item.id]?.quantity}
+      </span>
+      <Button size="sm" onClick={() => addItem(item)}>
+        <PlusIcon size={16} />
+      </Button>
+    </div>
+  ) : (
+    <div className="flex justify-end">
+      <Button onClick={() => addItem(item)}>Add</Button>
     </div>
   );
 }
