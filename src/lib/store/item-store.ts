@@ -17,7 +17,6 @@ type ItemStore = {
   setCartItems: (cartItems: itemsType) => void;
   addItem: (item: Item) => void;
   removeItem: (item: Item) => void;
-  totalQuantity: (cartItems: itemsType) => number;
 };
 export const useItemStore = create(
   persist<ItemStore>(
@@ -48,11 +47,6 @@ export const useItemStore = create(
           },
         }));
       },
-      totalQuantity: (cartItems) =>
-        Object.values(cartItems as itemsType).reduce(
-          (acc: number, value: { quantity: number }) => acc + value.quantity,
-          0
-        ),
     }),
     {
       name: "item-storage",
@@ -64,6 +58,16 @@ export const useCartQuantity = () => {
   return useItemStore((s) => {
     return Object.values(s.cartItems as itemsType).reduce(
       (acc: number, value: { quantity: number }) => acc + value.quantity,
+      0
+    );
+  });
+};
+
+export const useCartPrice = () => {
+  return useItemStore((s) => {
+    return Object.values(s.cartItems as itemsType).reduce(
+      (acc: number, value: { quantity: number; item: Item }) =>
+        acc + value.quantity * value.item.price,
       0
     );
   });

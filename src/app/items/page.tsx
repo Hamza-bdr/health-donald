@@ -32,7 +32,7 @@ export default function ItemsPage() {
   }
 
   return (
-    <div className="grid sm:grid-cols-2 gap-2">
+    <div className="grid sm:grid-cols-2 gap-2 h-full overflow-y-auto">
       {data?.map((item) => (
         <Card className="bg-transparent p-3 shadow-md" key={item.id}>
           <CardHeader className="text-xl font-medium font-mono justify-end">

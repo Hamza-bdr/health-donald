@@ -1,5 +1,5 @@
 "use client";
-import Logo from "../app/Logo";
+import Logo from "./Logo";
 import { User, ShoppingBasket } from "lucide-react";
 import { Button } from "./ui/button";
 import { useCartQuantity } from "@/lib/store/item-store";

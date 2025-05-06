@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function Login() {
   return (
     <>
-      <div className="relative flex h-full flex-col items-center justify-center gap-4 py-4">
+      <div className="relative flex flex-col items-center justify-center gap-4 py-4">
         <div className="absolute left-4 top-4 rotate-12">
           <Image
             src="/images/healthburger/categories/burger.png"
