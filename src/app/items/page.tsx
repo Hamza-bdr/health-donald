@@ -11,6 +11,8 @@ import useSWR from "swr";
 import { Loader2, MinusIcon, PlusIcon } from "lucide-react";
 import { formatPrice } from "./../../lib/format-price";
 import { useItemStore } from "@/lib/store/item-store";
+import { Item } from "@/types/types";
+import { CartFooter } from "@/components/cart/CartFooter";
 
 export default function ItemsPage() {
   const { data, error, isLoading } = useSWR("/items", getItems);
@@ -32,31 +34,31 @@ export default function ItemsPage() {
   }
 
   return (
-    <div className="grid sm:grid-cols-2 gap-2 h-full overflow-y-auto">
-      {data?.map((item) => (
-        <Card className="bg-transparent p-3 shadow-md" key={item.id}>
-          <CardHeader className="text-xl font-medium font-mono justify-end">
-            {formatPrice(item.price)}
-          </CardHeader>
-          <CardContent>
-            <img src={item.image} alt={item.name} />
-          </CardContent>
-          <CardFooter className="text-lg font-medium justify-center">
-            {item.name}
-          </CardFooter>
-          <CartButton item={item} />
-        </Card>
-      ))}
-    </div>
+    <>
+      <div className="flex flex-col gap-2 h-full overflow-y-auto">
+        <div className="grid sm:grid-cols-2">
+          {data?.map((item) => (
+            <Card className="bg-transparent p-3 shadow-md" key={item.id}>
+              <CardHeader className="text-xl font-medium font-mono justify-end">
+                {formatPrice(item.price)}
+              </CardHeader>
+              <CardContent>
+                <img src={item.image} alt={item.name} />
+              </CardContent>
+              <CardFooter className="text-lg font-medium justify-center">
+                {item.name}
+              </CardFooter>
+              <CartButton item={item} />
+            </Card>
+          ))}
+        </div>
+        <div className="sticky w-full -bottom-0.5">
+          <CartFooter />
+        </div>
+      </div>
+    </>
   );
 }
-type Item = {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  image: string;
-};
 
 function CartButton({ item }: { item: Item }) {
   const { cartItems, addItem, removeItem } = useItemStore();

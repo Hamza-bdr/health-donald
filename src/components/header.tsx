@@ -36,7 +36,7 @@ const ShoppingCart = () => {
   return (
     <Button variant="outline">
       <span className="text-md font-medium">{totalQuantity}</span>
-      <ShoppingBasket size={12} />
+      <ShoppingBasket size={20} />
     </Button>
   );
 };

@@ -1,13 +1,7 @@
 import { db } from "@/lib/firebase";
+import { Item } from "@/types/types";
 import { collection, getDocs } from "firebase/firestore";
 
-type Item = {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  category: string;
-};
 export async function getItems() {
   const itemsRef = collection(db, "items");
   const docSnap = await getDocs(itemsRef);

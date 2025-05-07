@@ -16,7 +16,7 @@ export default function LoginForm() {
     if (!name) return;
     login(name.trim());
     setName("");
-    router.push("/");
+    router.push("/items");
   };
   return !user ? (
     <form className="inline-flex gap-4" onSubmit={handleSubmit}>

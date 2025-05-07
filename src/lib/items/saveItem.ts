@@ -24,5 +24,4 @@ export default async function saveItem(id: string, item: any) {
 
   const itemDoc = doc(db, "items", id);
   const res = await setDoc(itemDoc, item);
-  console.log("Item saved:", res);
 }
