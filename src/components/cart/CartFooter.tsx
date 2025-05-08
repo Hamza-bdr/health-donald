@@ -8,7 +8,7 @@ import { CartLine } from "./CartLine";
 
 export function CartFooter() {
   const totalPrice = useCartPrice();
-  const { cartItems, removeItem } = useItemStore();
+  const { cartItems } = useItemStore();
   const [open, setOpen] = useState(false);
 
   function handleCollapse() {
@@ -16,24 +16,25 @@ export function CartFooter() {
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex flex-col gap-2 px-4 py-2 bg-slate-100 rounded-t-lg ">
-        <button className="m-auto" onClick={handleCollapse}>
+    <div className="absolute z-10 inset-x-0 bottom-0 m-auto max-w-xl rounded-t-lg border-x bg-card pt-4">
+      <div className="flex flex-col gap-2 px-4 py-2">
+        <Button
+          className="absolute inset-x-4 top-0 hover:bg-transparent "
+          variant="ghost"
+          size="sm"
+          onClick={handleCollapse}
+        >
           {open ? <ChevronDown /> : <ChevronUp />}
-        </button>
+        </Button>
         {open && (
           <>
             <div className="flex justify-between items-center">
               <h1 className="text-lg font-medium">Cart</h1>
               <p className="text-lg font-medium"> {formatPrice(totalPrice)} </p>
             </div>
-            <div className="h-60 overflow-auto px-2">
+            <div className="flex flex-col max-h-36 overflow-y-auto px-2">
               {Object.values(cartItems).map((cartItem) => (
-                <CartLine
-                  cartItem={cartItem}
-                  removeItem={() => removeItem(cartItem.item)}
-                  key={cartItem.item.id}
-                />
+                <CartLine cartItem={cartItem} key={cartItem.item.id} />
               ))}
             </div>
           </>

@@ -15,3 +15,18 @@ export type CartItems = {
     quantity: number;
   };
 };
+export type ItemStore = {
+  cartItems: CartItems;
+  setCartItems: (cartItems: CartItems) => void;
+  addItem: (item: Item) => void;
+  removeItem: (item: Item) => void;
+};
+
+export type User = null | string;
+
+export type UserStore = {
+  user: User;
+  login: (user: User) => void;
+  logout: () => void;
+  isAdmin: boolean;
+};

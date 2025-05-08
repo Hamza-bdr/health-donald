@@ -4,7 +4,6 @@ import { useUserStore } from "@/lib/store/user-store";
 import Login from "./login/page";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { CartFooter } from "@/components/cart/CartFooter";
 
 export default function Home() {
   const { user, isAdmin } = useUserStore();
@@ -27,7 +26,6 @@ export default function Home() {
           <Button onClick={() => router.push("/items/new")}>New</Button>
         )}
       </div>
-      <CartFooter />
     </div>
   );
 }

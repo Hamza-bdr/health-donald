@@ -1,15 +1,7 @@
 "use client";
+import { UserStore } from "@/types/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-type User = null | string;
-
-type UserStore = {
-  user: User;
-  login: (user: User) => void;
-  logout: () => void;
-  isAdmin: boolean;
-};
 
 export const useUserStore = create(
   persist<UserStore>(

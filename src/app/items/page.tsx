@@ -35,26 +35,13 @@ export default function ItemsPage() {
 
   return (
     <>
-      <div className="flex flex-col gap-2 h-full overflow-y-auto">
-        <div className="grid sm:grid-cols-2">
+      <div className="flex flex-col gap-2 p-2 h-full overflow-y-auto">
+        <div className="grid sm:grid-cols-2 gap-4">
           {data?.map((item) => (
-            <Card className="bg-transparent p-3 shadow-md" key={item.id}>
-              <CardHeader className="text-xl font-medium font-mono justify-end">
-                {formatPrice(item.price)}
-              </CardHeader>
-              <CardContent>
-                <img src={item.image} alt={item.name} />
-              </CardContent>
-              <CardFooter className="text-lg font-medium justify-center">
-                {item.name}
-              </CardFooter>
-              <CartButton item={item} />
-            </Card>
+            <CartCard key={item.id} item={item} />
           ))}
         </div>
-        <div className="sticky w-full -bottom-0.5">
-          <CartFooter />
-        </div>
+        <CartFooter />
       </div>
     </>
   );
@@ -65,19 +52,37 @@ function CartButton({ item }: { item: Item }) {
 
   return cartItems[item.id]?.quantity > 0 ? (
     <div className="inline-flex gap-3 items-center justify-end">
-      <Button size="sm" onClick={() => removeItem(item)}>
-        <MinusIcon size={16} />
+      <Button size="sm" variant="outline" onClick={() => removeItem(item)}>
+        <MinusIcon size={6} />
       </Button>
       <span className="text-md font-semibold">
         {cartItems[item.id]?.quantity}
       </span>
-      <Button size="sm" onClick={() => addItem(item)}>
-        <PlusIcon size={16} />
+      <Button size="sm" variant="outline" onClick={() => addItem(item)}>
+        <PlusIcon size={6} />
       </Button>
     </div>
   ) : (
     <div className="flex justify-end">
-      <Button onClick={() => addItem(item)}>Add</Button>
+      <Button className="flex-grow mx-6" onClick={() => addItem(item)}>
+        Add
+      </Button>
     </div>
+  );
+}
+function CartCard({ item }: { item: Item }) {
+  return (
+    <Card className="bg-transparent p-2 shadow-md" key={item.id}>
+      <CardHeader className="text-xl font-medium font-mono justify-end">
+        {formatPrice(item.price)}
+      </CardHeader>
+      <CardContent>
+        <img className="size-40 m-auto" src={item.image} alt={item.name} />
+      </CardContent>
+      <CardFooter className="text-lg font-medium justify-center">
+        {item.name}
+      </CardFooter>
+      <CartButton item={item} />
+    </Card>
   );
 }

@@ -2,15 +2,11 @@ import { formatPrice } from "@/lib/format-price";
 import { CartItem, Item } from "@/types/types";
 import { Minus, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
+import { useItemStore } from "@/lib/store/item-store";
 
-export function CartLine({
-  cartItem,
-  removeItem,
-}: {
-  cartItem: CartItem;
-  removeItem: (item: Item) => void;
-}) {
+export function CartLine({ cartItem }: { cartItem: CartItem }) {
   const item = cartItem.item;
+  const { removeItem } = useItemStore();
 
   return (
     <div key={item.id} className="flex items-center justify-between">
@@ -18,7 +14,7 @@ export function CartLine({
         <img
           src={item.image}
           alt={item.name}
-          className="w-16 h-16 object-cover rounded"
+          className="size-16 object-cover rounded"
         />
         <div>
           <h3 className="font-medium">{item.name}</h3>

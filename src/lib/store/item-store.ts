@@ -1,14 +1,8 @@
 "use client";
-import { CartItems, Item } from "@/types/types";
+import { CartItems, Item, ItemStore } from "@/types/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type ItemStore = {
-  cartItems: CartItems;
-  setCartItems: (cartItems: CartItems) => void;
-  addItem: (item: Item) => void;
-  removeItem: (item: Item) => void;
-};
 export const useItemStore = create(
   persist<ItemStore>(
     (set) => ({
