@@ -30,3 +30,12 @@ export type UserStore = {
   logout: () => void;
   isAdmin: boolean;
 };
+export type Category = {
+  name: string;
+  imageURL: string;
+};
+
+export type CategoryStore = {
+  category: Category;
+  setCategory: (category: Category) => void;
+};

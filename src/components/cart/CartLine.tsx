@@ -1,3 +1,4 @@
+"use client";
 import { formatPrice } from "@/lib/format-price";
 import { CartItem, Item } from "@/types/types";
 import { Minus, Trash2 } from "lucide-react";
@@ -28,7 +29,7 @@ export function CartLine({ cartItem }: { cartItem: CartItem }) {
           {formatPrice(item.price * cartItem.quantity)}
         </p>
         <Button
-          size="sm"
+          size="icon"
           onClick={() => removeItem(item)}
           disabled={cartItem.quantity <= 0}
         >

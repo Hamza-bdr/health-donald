@@ -27,19 +27,8 @@ import { getId } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import ImageInput from "@/components/ImageInput";
 import saveItem from "../../../lib/items/saveItem";
-const categories = [
-  { name: "Burger", imageURL: "/images/healthburger/categories/burger.png" },
-  {
-    name: "Nuggets",
-    imageURL: "/images/healthburger/categories/nuggets.png",
-  },
-  { name: "Drink", imageURL: "/images/healthburger/categories/drink.png" },
-  { name: "Fries", imageURL: "/images/healthburger/categories/fries.png" },
-  {
-    name: "Dessert",
-    imageURL: "/images/healthburger/categories/dessert.png",
-  },
-];
+import { categories } from "@/lib/categories";
+
 const formSchema = z.object({
   name: z.string().min(2).max(50),
   category: z.string().min(2).max(50),
