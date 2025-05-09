@@ -1,10 +1,15 @@
 import { db } from "@/lib/firebase";
 import { Item } from "@/types/types";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
-export async function getItems() {
+export async function getItems(categoryName: string) {
   const itemsRef = collection(db, "items");
-  const docSnap = await getDocs(itemsRef);
+  let docSnap = await getDocs(itemsRef);
+
+  if (categoryName) {
+    const q = query(itemsRef, where("category", "==", categoryName));
+    docSnap = await getDocs(q);
+  }
   const data: Array<Item> = [];
 
   docSnap.forEach((d) =>
