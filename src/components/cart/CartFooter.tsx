@@ -5,11 +5,13 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { CartLine } from "./CartLine";
+import { useRouter } from "next/navigation";
 
 export function CartFooter() {
   const totalPrice = useCartPrice();
   const { cartItems } = useItemStore();
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   function handleCollapse() {
     if (totalPrice >= 0) setOpen((prev) => !prev);
@@ -41,7 +43,12 @@ export function CartFooter() {
         )}
 
         <div className="inline-flex items-center gap-4">
-          <Button className="flex-grow">Checkout</Button>
+          <Button
+            className="flex-grow"
+            onClick={() => router.push("/checkout")}
+          >
+            Checkout
+          </Button>
           {!open && (
             <h1 className="text-lg font-medium"> {formatPrice(totalPrice)} </h1>
           )}
