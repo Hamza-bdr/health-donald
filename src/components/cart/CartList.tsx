@@ -1,6 +1,5 @@
 "use client";
 
-import { Item } from "@/types/types";
 import CartCard from "./CartCard";
 import { getItems } from "@/lib/items/getItems";
 import { useCategoryStore } from "@/lib/store/category-store";
@@ -24,8 +23,8 @@ export default function CartList() {
   }
   if (isLoading) {
     return (
-      <div className="flex flex-col justify-center items-center">
-        <Loader2 className="animate-spin text-green-300" size={60} />
+      <div>
+        <Loader2 className="animate-spin text-green-400" size={50} />
       </div>
     );
   }

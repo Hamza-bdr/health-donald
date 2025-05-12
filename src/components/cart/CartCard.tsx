@@ -5,7 +5,7 @@ import CartButton from "./CartButton";
 export default function CartCard({ item }: { item: Item }) {
   return (
     <div
-      className="flex flex-col items-center bg-transparent p-4 gap-2 rounded-md shadow-md border"
+      className="flex flex-col justify-between items-center bg-transparent p-4 gap-2 rounded-md shadow-md border"
       key={item.id}
     >
       <p className="text-xl font-medium font-mono justify-end">
