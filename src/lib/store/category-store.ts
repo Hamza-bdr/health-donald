@@ -1,3 +1,4 @@
+"use client";
 import { Category, CategoryStore } from "@/types/types";
 import { create } from "zustand";
 

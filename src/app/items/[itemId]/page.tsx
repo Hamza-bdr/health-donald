@@ -49,8 +49,6 @@ export default function ItemPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Form submitted!");
-    console.log(values);
     const id = getId(values.name);
     if (!id) {
       console.error("Invalid ID generated from name");

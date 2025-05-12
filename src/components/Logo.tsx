@@ -10,7 +10,7 @@ interface LogoProps {
 export default function Logo({ size }: LogoProps) {
   return (
     <>
-      <Link href={"/items"} className="inline-flex items-center gap-2">
+      <Link href={"/"} className="inline-flex items-center gap-2">
         <Image
           src="/images/logo/healthdonals.png"
           alt="healthdonal"

@@ -22,7 +22,7 @@ export default function CheckoutPage() {
   const { data } = useSWR(`/items/Dessert`, async () => getItems("Dessert"));
 
   return (
-    <div className="flex flex-col gap-3 p-4">
+    <div className="flex flex-col gap-3 p-4 h-full overflow-auto">
       <CheckoutHeader />
       <CheckoutList />
       {!hasDessert && <DessertsList items={data || []} />}
@@ -46,11 +46,13 @@ export function CheckoutButton() {
   const router = useRouter();
   return quantityTotal > 0 ? (
     <div className="inline-flex items-center gap-4">
-      <Button className="flex-grow">Confirm your order</Button>
+      <Button className="flex-grow" onClick={() => router.push("/success")}>
+        Confirm your order
+      </Button>
     </div>
   ) : (
     <div className="inline-flex items-center gap-4">
-      <Button className="flex-grow" onClick={() => router.push("/items")}>
+      <Button className="flex-grow" onClick={() => router.push("/")}>
         Back to shop
       </Button>
     </div>

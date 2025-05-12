@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import Header from "@/components/header";
 import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/components/footer";
+import ToogleAdmin from "@/components/ToogleAdmin";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default function RootLayout({
         )}
       >
         <Toaster />
+        <ToogleAdmin />
         <div className="relative m-auto flex min-h-full h-full max-w-xl flex-col gap-2 border-x">
           <Header />
           <main className="flex-1 overflow-hidden p-2">{children}</main>

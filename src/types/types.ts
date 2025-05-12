@@ -39,3 +39,8 @@ export type CategoryStore = {
   category: Category;
   setCategory: (category: Category) => void;
 };
+
+export type AdminStore = {
+  adminEdit: boolean;
+  setAdminEdit: (adminEdit: boolean) => void;
+};
