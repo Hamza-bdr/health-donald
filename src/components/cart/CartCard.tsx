@@ -2,10 +2,11 @@
 import { formatPrice } from "@/lib/format-price";
 import { Item } from "@/types/types";
 import CartButton from "./CartButton";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { EditIcon, Trash2 } from "lucide-react";
 import { useAdminStore } from "@/lib/store/admin-store";
 import { useUserStore } from "@/lib/store/user-store";
+import Link from "next/link";
 
 export default function CartCard({ item }: { item: Item }) {
   const AdminEdit = useAdminStore((s) => s.adminEdit);
@@ -26,9 +27,12 @@ export default function CartCard({ item }: { item: Item }) {
       <CartButton item={item} />
       {AdminEdit && isAdmin && (
         <div className="gap-2">
-          <Button size={"icon"} variant="outline">
+          <Link
+            className={buttonVariants({ size: "icon", variant: "outline" })}
+            href={`/items/${item.id}`}
+          >
             <EditIcon />
-          </Button>
+          </Link>
           <Button size={"icon"} variant="outline">
             <Trash2 />
           </Button>

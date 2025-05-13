@@ -42,5 +42,5 @@ export type CategoryStore = {
 
 export type AdminStore = {
   adminEdit: boolean;
-  setAdminEdit: (adminEdit: boolean) => void;
+  toggleAdminEdit: () => void;
 };
