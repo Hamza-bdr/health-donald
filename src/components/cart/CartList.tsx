@@ -8,14 +8,14 @@ import useSWR from "swr";
 
 export default function CartList() {
   const categoryName = useCategoryStore().category.name;
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR(
     `/items/${categoryName}`,
     async () => getItems(categoryName)
   );
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen">
+      <div className="flex flex-col items-center justify-center">
         <h1 className="text-2xl font-bold">Error loading items</h1>
         <p className="text-lg">Please try again later.</p>
       </div>
@@ -23,8 +23,8 @@ export default function CartList() {
   }
   if (isLoading) {
     return (
-      <div>
-        <Loader2 className="animate-spin text-green-400" size={50} />
+      <div className="flex flex-col items-center justify-center">
+        <Loader2 className="animate-spin text-green-400" />
       </div>
     );
   }

@@ -7,6 +7,19 @@ import { EditIcon, Trash2 } from "lucide-react";
 import { useAdminStore } from "@/lib/store/admin-store";
 import { useUserStore } from "@/lib/store/user-store";
 import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "../ui/alert-dialog";
+import { db } from "@/lib/firebase";
+import { deleteDoc, doc } from "firebase/firestore";
 
 export default function CartCard({ item }: { item: Item }) {
   const AdminEdit = useAdminStore((s) => s.adminEdit);
@@ -27,17 +40,67 @@ export default function CartCard({ item }: { item: Item }) {
       <CartButton item={item} />
       {AdminEdit && isAdmin && (
         <div className="gap-2">
-          <Link
-            className={buttonVariants({ size: "icon", variant: "outline" })}
-            href={`/items/${item.id}`}
-          >
-            <EditIcon />
-          </Link>
-          <Button size={"icon"} variant="outline">
-            <Trash2 />
-          </Button>
+          <AdminEditButton item={item} />
+          <AdminDeleteButton item={item} />
         </div>
       )}
     </div>
+  );
+}
+import { getStorage, ref, deleteObject } from "firebase/storage";
+import { useSWRConfig } from "swr";
+import { useCategoryStore } from "@/lib/store/category-store";
+
+export function AdminDeleteButton({ item }: { item: Item }) {
+  const { mutate } = useSWRConfig();
+  const categoryName = useCategoryStore().category.name;
+
+  async function handleAdminDelete(item: Item) {
+    const storage = getStorage();
+    const imageRef = ref(storage, item.image);
+    try {
+      await deleteDoc(doc(db, "items", item.id));
+      await deleteObject(imageRef);
+      alert("Item deleted successfully!");
+      mutate(`/items/${categoryName}`);
+    } catch (error) {
+      console.error("Error deleting item or image:", error);
+    }
+  }
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button size={"icon"} variant="outline">
+          <Trash2 />
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete your
+            item.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={async () => handleAdminDelete(item)}>
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
+export function AdminEditButton({ item }: { item: Item }) {
+  return (
+    <Link
+      className={buttonVariants({ size: "icon", variant: "outline" })}
+      href={`/items/${item.id}`}
+    >
+      <EditIcon />
+    </Link>
   );
 }

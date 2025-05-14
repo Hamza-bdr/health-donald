@@ -16,7 +16,7 @@ export default function HomePage() {
   return (
     <div className="flex h-full">
       <CategoryList />
-      <div className="flex flex-col gap-2 p-2 w-fit overflow-y-auto">
+      <div className="flex flex-col gap-2 p-2 w-full overflow-y-auto">
         <CartList />
         <CartFooter />
       </div>
