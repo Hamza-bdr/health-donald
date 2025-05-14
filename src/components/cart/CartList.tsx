@@ -8,7 +8,7 @@ import useSWR from "swr";
 
 export default function CartList() {
   const categoryName = useCategoryStore().category.name;
-  const { data, error, isLoading, mutate } = useSWR(
+  const { data, error, isLoading } = useSWR(
     `/items/${categoryName}`,
     async () => getItems(categoryName)
   );
